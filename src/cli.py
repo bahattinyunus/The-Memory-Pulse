@@ -15,49 +15,52 @@ def generate_dashboard(monitor, analyzer):
     analysis = analyzer.analyze_trend(monitor.history)
     io_proxy = monitor.get_system_bandwidth_proxy()
     
-    # RAM Table
-    ram_table = Table(title="RAM Vital Signs", expand=True)
-    ram_table.add_column("Metric", style="cyan")
-    ram_table.add_column("Value", style="magenta")
-    ram_table.add_row("Total", f"{pulse['ram']['total'] / (1024**3):.2f} GB")
-    ram_table.add_row("Available", f"{pulse['ram']['available'] / (1024**3):.2f} GB")
-    ram_table.add_row("Used", f"{pulse['ram']['used'] / (1024**3):.2f} GB")
-    ram_table.add_row("Usage", f"{pulse['ram']['percent']}%")
+    # RAM Tablosu
+    ram_table = Table(title="RAM Yaşamsal Bulgular", expand=True)
+    ram_table.add_column("Metrik", style="cyan")
+    ram_table.add_column("Değer", style="magenta")
+    ram_table.add_row("Toplam", f"{pulse['ram']['total'] / (1024**3):.2f} GB")
+    ram_table.add_row("Kullanılabilir", f"{pulse['ram']['available'] / (1024**3):.2f} GB")
+    ram_table.add_row("Kullanılan", f"{pulse['ram']['used'] / (1024**3):.2f} GB")
+    ram_table.add_row("Kullanım", f"{pulse['ram']['percent']}%")
 
-    # Swap Table
-    swap_table = Table(title="Swap Status", expand=True)
-    swap_table.add_column("Metric", style="yellow")
-    swap_table.add_column("Value", style="green")
-    swap_table.add_row("Total", f"{pulse['swap']['total'] / (1024**3):.2f} GB")
-    swap_table.add_row("Used", f"{pulse['swap']['used'] / (1024**3):.2f} GB")
-    swap_table.add_row("Usage", f"{pulse['swap']['percent']}%")
+    # Swap Tablosu
+    swap_table = Table(title="Takas Alanı (Swap) Durumu", expand=True)
+    swap_table.add_column("Metrik", style="yellow")
+    swap_table.add_column("Değer", style="green")
+    swap_table.add_row("Toplam", f"{pulse['swap']['total'] / (1024**3):.2f} GB")
+    swap_table.add_row("Kullanılan", f"{pulse['swap']['used'] / (1024**3):.2f} GB")
+    swap_table.add_row("Kullanım", f"{pulse['swap']['percent']}%")
 
-    # Analysis Panel
-    analysis_text = f"Trend: [bold { 'red' if analysis.get('trend') == 'RISING' else 'green' }]{analysis.get('trend')}[/]\n"
-    analysis_text += f"Slope: {analysis.get('slope', 'N/A')}\n"
-    analysis_text += f"Records: {len(monitor.history)}\n\n"
-    analysis_text += f"[bold]IO Proxy[/]\n"
-    analysis_text += f"Net Recv: {io_proxy['net_bytes_recv'] / (1024**2):.2f} MB\n"
-    analysis_text += f"Disk Read: {io_proxy['disk_read_bytes'] / (1024**2):.2f} MB"
+    # Analiz Paneli
+    trend_map = {"RISING": "YÜKSELİYOR", "FALLING": "DÜŞÜYOR", "STABLE": "DURAĞAN", "flat": "DÜZ"}
+    trend_tr = trend_map.get(analysis.get('trend'), analysis.get('trend'))
+    
+    analysis_text = f"Trend: [bold { 'red' if analysis.get('trend') == 'RISING' else 'green' }]{trend_tr}[/]\n"
+    analysis_text += f"Eğim: {analysis.get('slope', 'YOK')}\n"
+    analysis_text += f"Kayıtlar: {len(monitor.history)}\n\n"
+    analysis_text += f"[bold]G/Ç Vekili[/]\n"
+    analysis_text += f"Ağ Alınan: {io_proxy['net_bytes_recv'] / (1024**2):.2f} MB\n"
+    analysis_text += f"Disk Okuma: {io_proxy['disk_read_bytes'] / (1024**2):.2f} MB"
 
     layout = Layout()
     layout.split_column(
         Layout(name="header", size=3),
         Layout(name="main", ratio=1)
     )
-    layout["header"].update(Panel(Text("THE MEMORY PULSE - DIGITAL CORTEX MONITOR", justify="center", style="bold white on blue")))
+    layout["header"].update(Panel(Text("THE MEMORY PULSE - DİJİTAL KORTEKS MONİTÖRÜ", justify="center", style="bold white on blue")))
     
     layout["main"].split_row(
-        Layout(Panel(ram_table, title="Volatile Memory")),
-        Layout(Panel(swap_table, title="Page File")),
-        Layout(Panel(analysis_text, title="Cortex Analysis"))
+        Layout(Panel(ram_table, title="Uçucu Bellek")),
+        Layout(Panel(swap_table, title="Disk Belleği")),
+        Layout(Panel(analysis_text, title="Korteks Analizi"))
     )
     
     return layout
 
 def main():
-    parser = argparse.ArgumentParser(description="The Memory Pulse - Elite Monitoring Tool")
-    parser.add_argument("--check", action="store_true", help="Run a quick system check and exit")
+    parser = argparse.ArgumentParser(description="The Memory Pulse - Elit İzleme Aracı")
+    parser.add_argument("--check", action="store_true", help="Hızlı bir sistem kontrolü yap ve çık")
     args = parser.parse_args()
 
     monitor = MemoryPulse()
@@ -66,7 +69,7 @@ def main():
 
     if args.check:
         pulse = monitor.get_pulse()
-        console.print(f"[bold green]System Check Passed[/]")
+        console.print(f"[bold green]Sistem Kontrolü Başarılı[/]")
         console.print(f"RAM: {pulse['ram']['percent']}% | Swap: {pulse['swap']['percent']}%")
         return
 
@@ -76,7 +79,7 @@ def main():
                 live.update(generate_dashboard(monitor, analyzer))
                 time.sleep(0.5)
         except KeyboardInterrupt:
-            console.print("[bold red]Monitor Terminated by User.[/]")
+            console.print("[bold red]Monitör Kullanıcı Tarafından Sonlandırıldı.[/]")
 
 if __name__ == "__main__":
     main()

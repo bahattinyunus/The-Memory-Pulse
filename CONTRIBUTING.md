@@ -1,36 +1,36 @@
-# Contributing to The Memory Pulse
+# The Memory Pulse'a Katkıda Bulunma
 
-**The Cortex is Evolving.**
+**Korteks Evrimleşiyor.**
 
-We welcome contributions from those who wish to enhance the physiological monitoring of digital systems. Whether it is optimizing the heuristic engines, expanding the data matrix, or refining the visual interface, your input is valuable.
+Dijital sistemlerin fizyolojik izlenmesini geliştirmek isteyenlerin katkılarını memnuniyetle karşılıyoruz. İster sezgisel motorları optimize etmek, ister veri matrisini genişletmek veya görsel arayüzü iyileştirmek olsun, girdileriniz değerlidir.
 
-## Development Workflow
+## Geliştirme İş Akışı
 
-1.  **Fork** the repository to your own quadrant.
-2.  **Clone** the data stream:
+1.  Depoyu kendi alanınıza **Fork**layın.
+2.  Veri akışını **Klonlayın**:
     ```bash
-    git clone https://github.com/your-username/The-Memory-Pulse.git
+    git clone https://github.com/kullanici-adiniz/The-Memory-Pulse.git
     ```
-3.  **Install dependencies**:
+3.  **Bağımlılıkları yükleyin**:
     ```bash
     pip install -r requirements.txt
     ```
-4.  **Create a branch** for your feature (e.g., `feature/neural-link-integration`).
-5.  **Commit** your changes with clear, semantic messages.
-6.  **Push** to your fork and submit a Pull Request.
+4.  Özelliğiniz için bir **dal (branch) oluşturun** (örn., `ozellik/noral-baglanti-entegrasyonu`).
+5.  Değişikliklerinizi net, anlamsal mesajlarla **Commit**leyin.
+6.  Forkunuza **Push**layın ve bir Pull Request (Çekme İsteği) gönderin.
 
-## Coding Standards
+## Kodlama Standartları
 
--   **Python 3.8+** compatibility is required.
--   Follow **PEP 8** style guidelines.
--   Type hinting (`typing`) is mandatory for all new functions.
--   Ensure all new features are accompanied by tests.
+-   **Python 3.8+** uyumluluğu gereklidir.
+-   **PEP 8** stil yönergelerini takip edin.
+-   Tüm yeni fonksiyonlar için Tip İpuçları (`typing`) zorunludur.
+-   Tüm yeni özelliklerin testlerle birlikte geldiğinden emin olun.
 
-## Roadmap Priorities
+## Yol Haritası Öncelikleri
 
--   [ ] FPGA Hardware Interface
--   [ ] Neural Network Anomaly Detection
--   [ ] Cross-Platform "Pulse" Sharing
--   [ ] 3D Visualization of Memory Blocks
+-   [ ] FPGA Donanım Arayüzü
+-   [ ] Sinir Ağı Anomali Tespiti
+-   [ ] Çapraz Platform "Nabız" Paylaşımı
+-   [ ] Hafıza Bloklarının 3D Görselleştirmesi
 
-Join us in defining the heartbeat of the machine.
+Makinenin kalp atışını tanımlamak için bize katılın.

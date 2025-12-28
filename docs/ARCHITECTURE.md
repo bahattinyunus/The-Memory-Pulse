@@ -1,35 +1,35 @@
-# System Architecture: The Digital Cortex
+# Sistem Mimarisi: Dijital Korteks
 
-## Overview
+## Genel Bakış
 
-**The Memory Pulse** is designed as a non-intrusive, real-time monitoring system that sits atop the operating system's kernel interfaces. It treats memory management not just as a resource allocation table, but as a dynamic, flowing system—a "pulse".
+**The Memory Pulse**, işletim sistemi çekirdek arayüzlerinin üzerinde duran, müdahaleci olmayan, gerçek zamanlı bir izleme sistemi olarak tasarlanmıştır. Hafıza yönetimini sadece bir kaynak tahsis tablosu olarak değil, dinamik, akan bir sistem—bir "nabız" olarak ele alır.
 
-## Core Components
+## Temel Bileşenler
 
-### 1. The Pulse Monitor (`src/core/pulse_monitor.py`)
-This is the sensory organ of the system. It interfaces with OS APIs (via `psutil`) to retrieve raw telemetry:
--   **Volatile Memory (RAM)**: Active working set.
--   **Page File (Swap)**: Virtual memory backing store.
--   **Bandwidth Proxy**: Correlates Network and Disk I/O to estimate system throughput load.
+### 1. Nabız Monitörü (`src/core/pulse_monitor.py`)
+Bu, sistemin duyu organıdır. Ham telemetriyi almak için OS API'leri (`psutil` aracılığıyla) ile arayüz oluşturur:
+-   **Uçucu Bellek (RAM)**: Aktif çalışma seti.
+-   **Disk Belleği Dosyası (Swap)**: Sanal bellek yedekleme deposu.
+-   **Bant Genişliği Vekili**: Sistem verim yükünü tahmin etmek için Ağ ve Disk G/Ç'sini ilişkilendirir.
 
-### 2. The Analyzer Engine (`src/core/analyzer.py`)
-Raw data is noise without interpretation. The Analyzer applies statistical models to the data stream:
--   **Trend Analysis**: Uses Linear Regression (`polyfit`) to determine if memory pressure is increasing, decreasing, or stable.
--   **Anomaly Detection**: Uses Z-Score statistical analysis to flag unexpected spikes in usage.
+### 2. Analiz Motoru (`src/core/analyzer.py`)
+Yorumlama olmadan ham veri gürültüdür. Analizci, veri akışına istatistiksel modeller uygular:
+-   **Trend Analizi**: Bellek baskısının artıp artmadığını, azaldığını veya sabit kaldığını belirlemek için Doğrusal Regresyon (`polyfit`) kullanır.
+-   **Anomali Tespiti**: Beklenmedik kullanım artışlarını işaretlemek için Z-Skoru istatistiksel analizini kullanır.
 
-### 3. The Visual Interface (`src/cli.py`)
-The "conscious mind" of the tool. It renders a terminal-based dashboard using the `rich` library, presenting data in a high-fidelity, refreshable layout.
+### 3. Görsel Arayüz (`src/cli.py`)
+Aracın "bilinçli zihni". Verileri yüksek sadakatli, yenilenebilir bir düzende sunan `rich` kütüphanesini kullanarak terminal tabanlı bir kontrol paneli oluşturur.
 
-## Data Flow
+## Veri Akışı
 
 ```mermaid
 graph LR
-    OS[Operating System Kernel] -->|Raw Metrics| Monitor[Pulse Monitor]
-    Monitor -->|Pulse Data| Analyzer[Analyzer Engine]
-    Monitor -->|History| Analyzer
-    Analyzer -->|Trend & Anomalies| UI[CLI Dashboard]
-    Monitor -->|Realtime Stats| UI
+    OS[İşletim Sistemi Çekirdeği] -->|Ham Metrikler| Monitor[Nabız Monitörü]
+    Monitor -->|Nabız Verisi| Analyzer[Analiz Motoru]
+    Monitor -->|Geçmiş| Analyzer
+    Analyzer -->|Trend & Anomaliler| UI[CLI Paneli]
+    Monitor -->|Gerçek Zamanlı İstatistikler| UI
 ```
 
-## Future Expansion: The Neural Link
-We plan to introduce a neural network layer (`src/ai`) that learns the "normal" behavior of a specific user's workload and predicts Out-Of-Memory (OOM) events before they happen.
+## Gelecek Genişleme: Nöral Bağlantı
+Belirli bir kullanıcının iş yükünün "normal" davranışını öğrenen ve gerçekleşmeden önce Hafıza Yetersizliği (OOM) olaylarını tahmin eden bir sinir ağı katmanı (`src/ai`) sunmayı planlıyoruz.
